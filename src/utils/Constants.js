@@ -1,0 +1,25 @@
+export default {
+    OPENSANS_FONT_LIGHT: 'OpenSans-Light',
+    OPENSANS_FONT_MEDIUM: 'OpenSans-Medium',
+    OPENSANS_FONT_REGULAR: 'OpenSans-Regular',
+    OPENSANS_FONT_BOLD: 'OpenSans-Bold',
+    OPENSANS_FONT_SEMI_BOLD: 'OpenSans-SemiBold',
+    OPENSANS_FONT_BLACK: 'OpenSans-Black',
+    OPENSANS_FONT_EXTRA_BOLD: 'OpenSans-ExtraBold',
+    OPENSANS_FONT_MEDIUM_ITALIC: 'OpenSans-MediumItalic',
+    OPENSANS_FONT_BOLD_ITALIC: 'OpenSans-BoldItalic',
+}
+
+export const THEME_CHANGE = 'THEME_CHANGE';
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGOUT = 'LOGOUT';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const NAVIGATE_TO_DASHBOARD = 'NAVIGATE_TO_DASHBOARD';
+export const CHECK_AUTH_STATUS = 'CHECK_AUTH_STATUS';
+export const AUTH_STATUS_CHECKED = 'AUTH_STATUS_CHECKED';
+export const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
+export const FETCH_MATCHES = 'MATCHES';
+export const FETCH_MATCHES_SUCCESS = 'FETCH_MATCHES_SUCCESS';
+export const FETCH_MATCHES_FAIL = 'FETCH_MATCHES_FAIL';
