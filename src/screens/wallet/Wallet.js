@@ -77,7 +77,7 @@ const Wallet = (props) => {
                 <View style={{ marginTop: verticalScale(40), paddingHorizontal: scale(20), alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(40), marginTop: verticalScale(30) }}>{'\u20B9'} 5600</Text>
                     <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_MEDIUM, fontSize: scaleFont(12) }}>Total Wallet Balance</Text>
-                    <TouchableOpacity activeOpacity={0.7} onPress={() => { props.navigation.navigate('AddMoney') }} style={{ width: scale(120), height: verticalScale(36), borderRadius: verticalScale(20), marginTop: verticalScale(10), backgroundColor: colors.white, justifyContent: 'center', alignItems: 'center', elevation: 1 }} >
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => { props.navigation.navigate('QRCodePayment') }} style={{ width: scale(120), height: verticalScale(36), borderRadius: verticalScale(20), marginTop: verticalScale(10), backgroundColor: colors.white, justifyContent: 'center', alignItems: 'center', elevation: 1 }} >
                         <Text style={{ color: colors.primary_blue, fontFamily: constants.OPENSANS_FONT_SEMI_BOLD, fontSize: scaleFont(12) }} >Add Money</Text>
                     </TouchableOpacity>
 
@@ -105,6 +105,14 @@ const Wallet = (props) => {
             </LinearGradient>
 
             <ScrollView style={{ marginLeft: scale(10), }} showsVerticalScrollIndicator={false} overScrollMode="never" >
+
+            <TouchableOpacity onPress={() => props.navigation.navigate('WithdrawMoney')} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
+                    <MaterialCommunityIcons name="bank-transfer-out" color={colors.primary_blue} size={verticalScale(30)} />
+                    <View style={{ flexDirection: 'row', borderBottomWidth: verticalScale(0.25), borderColor: colors.greyColour, width: scale(320), justifyContent: "space-between", alignItems: 'center', paddingHorizontal: scale(10), height: verticalScale(60), }}>
+                        <Text style={{ color: colors.black, fontSize: scaleFont(14), fontFamily: constants.OPENSANS_FONT_SEMI_BOLD }}>Upload Paid Screen</Text>
+                        <FontAwesome name="angle-right" color={colors.black} size={verticalScale(18)} />
+                    </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('WithdrawMoney')} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
                     <MaterialCommunityIcons name="bank-transfer-out" color={colors.primary_blue} size={verticalScale(30)} />

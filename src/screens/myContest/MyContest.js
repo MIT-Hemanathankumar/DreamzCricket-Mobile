@@ -6,6 +6,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import { colors, constants, scale, scaleFont, verticalScale } from '../../utils';
 import { completedMatchData, matchdata } from '../../utils/Data';
+import ContestTypeModal from '../common/ContestTypeModal';
 
 
 const MyContest = (props) => {
@@ -19,6 +20,7 @@ const MyContest = (props) => {
     const [upcoming, setupcoming] = useState(true)
     const [live, setlive] = useState(false)
     const [completed, setcompleted] = useState(false)
+    const [showModal, setShowModal] = useState(false);
     const navigation = useNavigation()
 
 
@@ -44,7 +46,7 @@ const MyContest = (props) => {
 
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: scale(270), justifyContent: 'center' }}>
-                            <Image style={{ height: verticalScale(35), width: verticalScale(29), }} source={require("../../assets/images/Logodash.png")} />
+                             <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(18), marginLeft: scale(10) }}>Dreamatch</Text>
 
                         </View>
                         <Ionicon name="notifications-outline" color='white' size={verticalScale(22)} />
@@ -100,6 +102,22 @@ const MyContest = (props) => {
                         </TouchableOpacity>
                     </View>
 
+                    <ContestTypeModal
+
+                    visible={showModal}
+                    onClose={()=>setShowModal(false)}
+                    onMyTeamPress={()=>{
+                        setShowModal(false);
+                        console.log('My Team Clicked');
+                    }}
+                    onQuickWinPress={()=>{
+                        setShowModal(false);
+                        console.log('Quick Win clicked');
+                        props.navigation.navigate('ContestListScreen')
+                    }}
+                    
+                    />
+
                     {
                         upcoming && (
                             <View style={{ flex: 1 }}>
@@ -108,7 +126,7 @@ const MyContest = (props) => {
                                     showsVerticalScrollIndicator={false}
                                     renderItem={({ item }) => {
                                         return (
-                                            <TouchableOpacity activeOpacity={0.7} style={{ flexDirection: 'row', justifyContent: 'space-between', width: scale(340), alignItems: 'center', alignSelf: 'center', marginVertical: verticalScale(10), paddingHorizontal: scale(20), backgroundColor: colors.white, borderRadius: verticalScale(12), height: verticalScale(90) }}>
+                                            <TouchableOpacity onPress={()=> setShowModal(true)} activeOpacity={0.7} style={{ flexDirection: 'row', justifyContent: 'space-between', width: scale(340), alignItems: 'center', alignSelf: 'center', marginVertical: verticalScale(10), paddingHorizontal: scale(20), backgroundColor: colors.white, borderRadius: verticalScale(12), height: verticalScale(90) }}>
                                                 <View style={{ justifyContent: "center", alignItems: "center" }}>
                                                     <Image source={{ uri: item.team1 }} style={{ height: verticalScale(40), width: verticalScale(40), borderRadius: verticalScale(40), borderWidth: 1, borderColor: 'black' }} />
                                                     <Text style={{ color: colors.black, width: scale(70), textAlign: "center" }}>{item.team1_name.length > 20 ? item.team1_name.split(" ")[0] + " " + item.team1_name.split(" ")[1] + " ..." : item.team1_name}</Text>

@@ -19,7 +19,9 @@ import Dashboard from './screens/dashboard/Dashboard';
 import MyContest from './screens/myContest/MyContest';
 import Wallet from './screens/wallet/Wallet';
 import MoreItems from './screens/moreItems/MoreItems';
-import SignInScreen from './screens/login/SignInScreen'
+import SignInScreen from './screens/login/SignInScreen';
+import ContestListScreen from './screens/myContest/ContestListScreen';
+import QRCodePayment from './screens/wallet/qrCodePayment';
 import { colors, verticalScale, scale } from "./utils"
 
 
@@ -110,6 +112,8 @@ const App = () => {
             <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SignupScreen" component={SignUpScreen} options={{ headerShown: false }} />  
             <Stack.Screen name="Signin" component={SignInScreen} options={{ headerShown: false }} />  
+            <Stack.Screen name="ContestListScreen" component={ContestListScreen} options={{headerShown:false}}/>
+            <Stack.Screen name="QRCodePayment" component={QRCodePayment} options={{headerShown:false}}/>
         </Stack.Navigator>
         </NavigationContainer>
         </Provider>

@@ -57,4 +57,5 @@ export default {
   primary_red: "#D22B2B",
   green: "green",
   wishlist_text: '#c4c4c4',
+  QRCode_bg_Color: '#F4F6FC'
 }

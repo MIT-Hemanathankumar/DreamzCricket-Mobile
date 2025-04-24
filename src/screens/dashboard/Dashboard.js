@@ -73,11 +73,6 @@ const Dashboard = (props) => {
                         <Image source={require("../../assets/images/avatar1.jpeg")} style={{ width: verticalScale(30), height: verticalScale(30), borderRadius: verticalScale(100), resizeMode: "stretch" }} />
                     </TouchableOpacity>
                     <View style={{ flexDirection: 'row', alignItems: 'center', width: scale(270), justifyContent: 'center' }}>
-                        <Icon
-                            name="trophy"
-                            size={verticalScale(20)}
-                            color={colors.white}
-                        />
                         <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(18), marginLeft: scale(10) }}>Dreamatch</Text>
                     </View>
                     <TouchableOpacity onPress={() => props.navigation.navigate('NotificationScreen')}>
