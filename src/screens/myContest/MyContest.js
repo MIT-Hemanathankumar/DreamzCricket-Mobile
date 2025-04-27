@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import { FlatList, Image, Keyboard, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { colors, constants, scale, scaleFont, verticalScale } from '../../utils';
 import { completedMatchData, matchdata } from '../../utils/Data';
 import ContestTypeModal from '../common/ContestTypeModal';
+import MatchCard from '../common/Components/MatchCard';
 
 
 const MyContest = (props) => {
@@ -21,7 +22,10 @@ const MyContest = (props) => {
     const [live, setlive] = useState(false)
     const [completed, setcompleted] = useState(false)
     const [showModal, setShowModal] = useState(false);
+    const [selectedMatch, setSelectedMatch] = useState(null);
     const navigation = useNavigation()
+    const { matches, loading, error } = useSelector(state => state.dashboard);
+
 
 
 
@@ -46,7 +50,7 @@ const MyContest = (props) => {
 
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: scale(270), justifyContent: 'center' }}>
-                             <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(18), marginLeft: scale(10) }}>Dreamatch</Text>
+                            <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(18), marginLeft: scale(10) }}>Dreamatch</Text>
 
                         </View>
                         <Ionicon name="notifications-outline" color='white' size={verticalScale(22)} />
@@ -104,49 +108,32 @@ const MyContest = (props) => {
 
                     <ContestTypeModal
 
-                    visible={showModal}
-                    onClose={()=>setShowModal(false)}
-                    onMyTeamPress={()=>{
-                        setShowModal(false);
-                        console.log('My Team Clicked');
-                    }}
-                    onQuickWinPress={()=>{
-                        setShowModal(false);
-                        console.log('Quick Win clicked');
-                        props.navigation.navigate('ContestListScreen')
-                    }}
-                    
+                        visible={showModal}
+                        onClose={() => setShowModal(false)}
+                        onMyTeamPress={() => {
+                            setShowModal(false);
+                            console.log('My Team Clicked');
+                        }}
+                        onQuickWinPress={() => {
+                            setShowModal(false);
+                            console.log('Quick Win clicked');
+                            props.navigation.navigate('ContestListScreen',{selectedMatch:selectedMatch})
+                        }}
+
                     />
 
                     {
                         upcoming && (
                             <View style={{ flex: 1 }}>
                                 <FlatList
-                                    data={matchdata}
+                                    data={matches.data.filter((item) => item.matchStatusName === 'Scheduled Match')}
                                     showsVerticalScrollIndicator={false}
                                     renderItem={({ item }) => {
                                         return (
-                                            <TouchableOpacity onPress={()=> setShowModal(true)} activeOpacity={0.7} style={{ flexDirection: 'row', justifyContent: 'space-between', width: scale(340), alignItems: 'center', alignSelf: 'center', marginVertical: verticalScale(10), paddingHorizontal: scale(20), backgroundColor: colors.white, borderRadius: verticalScale(12), height: verticalScale(90) }}>
-                                                <View style={{ justifyContent: "center", alignItems: "center" }}>
-                                                    <Image source={{ uri: item.team1 }} style={{ height: verticalScale(40), width: verticalScale(40), borderRadius: verticalScale(40), borderWidth: 1, borderColor: 'black' }} />
-                                                    <Text style={{ color: colors.black, width: scale(70), textAlign: "center" }}>{item.team1_name.length > 20 ? item.team1_name.split(" ")[0] + " " + item.team1_name.split(" ")[1] + " ..." : item.team1_name}</Text>
-                                                </View>
-                                                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                                    <Text style={{ color: colors.black }} >
-                                                        {item.tournament}
-                                                    </Text>
-                                                    <Text style={{ color: colors.black, fontFamily: constants.OPENSANS_FONT_BOLD }}>
-                                                        V/S
-                                                    </Text>
-                                                    <Text style={{ paddingHorizontal: scale(8), borderRadius: verticalScale(10), color: colors.primary_red }}>
-                                                        {item.time_left}
-                                                    </Text>
-                                                </View>
-                                                <View style={{ justifyContent: "center", alignItems: "center" }}>
-                                                    <Image source={{ uri: item.team2 }} style={{ height: verticalScale(40), width: verticalScale(40), borderRadius: verticalScale(40), borderWidth: 1, borderColor: 'black' }} />
-                                                    <Text style={{ color: colors.black, width: scale(70), textAlign: "center" }}>{item.team2_name.length > 20 ? item.team2_name.split(" ")[0] + " " + item.team2_name.split(" ")[1] + " ..." : item.team2_name}</Text>
-                                                </View>
-                                            </TouchableOpacity>
+                                            <MatchCard
+                                                item={item}
+                                                onPress={() => {setShowModal(true);setSelectedMatch(item)}}
+                                            />
                                         )
 
                                     }}
@@ -166,28 +153,14 @@ const MyContest = (props) => {
                         completed && (
                             <View style={{ flex: 1 }}>
                                 <FlatList
-                                    data={completedMatchData}
+                                    data={matches.data.filter((item) => item.matchStatusName === 'Match Completed')}
                                     showsVerticalScrollIndicator={false}
                                     renderItem={({ item }) => {
                                         return (
-                                            <TouchableOpacity activeOpacity={0.7} style={{ flexDirection: 'row', justifyContent: 'space-between', width: scale(340), alignItems: 'center', alignSelf: 'center', marginVertical: verticalScale(10), paddingHorizontal: scale(20), backgroundColor: colors.white, borderRadius: verticalScale(12), height: verticalScale(90) }}>
-                                                <View style={{ justifyContent: "center", alignItems: "center" }}>
-                                                    <Image source={item.team1} style={{ height: verticalScale(40), width: verticalScale(40), borderRadius: verticalScale(40), borderWidth: 1, borderColor: 'black' }} />
-                                                    <Text style={{ color: colors.black, width: scale(70), textAlign: "center" }}>{item.team1_name.length > 20 ? item.team1_name.split(" ")[0] + " " + item.team1_name.split(" ")[1] + " ..." : item.team1_name}</Text>
-                                                </View>
-                                                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                                    <Text style={{ color: colors.black }} >
-                                                        {item.tournament}
-                                                    </Text>
-                                                    <Text style={{ color: colors.black, fontFamily: constants.OPENSANS_FONT_BOLD }}>
-                                                        V/S
-                                                    </Text>
-                                                </View>
-                                                <View style={{ justifyContent: "center", alignItems: "center" }}>
-                                                    <Image source={item.team2} style={{ height: verticalScale(40), width: verticalScale(40), borderRadius: verticalScale(40), borderWidth: 1, borderColor: 'black' }} />
-                                                    <Text style={{ color: colors.black, width: scale(70), textAlign: "center" }}>{item.team2_name.length > 20 ? item.team2_name.split(" ")[0] + " " + item.team2_name.split(" ")[1] + " ..." : item.team2_name}</Text>
-                                                </View>
-                                            </TouchableOpacity>
+                                            <MatchCard
+                                            item={item}
+                                            onPress={() => setShowModal(true)}
+                                        />
                                         )
 
                                     }}
@@ -203,5 +176,6 @@ const MyContest = (props) => {
         </View>
     );
 }
+
 
 export default MyContest;

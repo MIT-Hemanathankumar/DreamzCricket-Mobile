@@ -96,7 +96,7 @@ const Wallet = (props) => {
                         </TouchableOpacity>
                         <TouchableOpacity style={{ width: scale(100), height: verticalScale(110), justifyContent: 'center', alignItems: 'center', backgroundColor: colors.white, borderRadius: verticalScale(6) }}>
                             <FontAwesome name="trophy" color={colors.primary_blue} size={verticalScale(20)} />
-                            <Text style={{ color: colors.black, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(20), marginTop: verticalScale(15) }}>{'\u20B9'}400</Text>
+                            <Text style={{ color: colors.black, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(20), marginTop: verticalScale(15) }}>{'\u20B9'}0</Text>
                             <Text style={{ color: colors.black, fontFamily: constants.OPENSANS_FONT_SEMI_BOLD, fontSize: scaleFont(12), }}>Winnings</Text>
 
                         </TouchableOpacity>

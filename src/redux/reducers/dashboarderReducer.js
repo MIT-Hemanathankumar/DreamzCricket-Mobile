@@ -1,5 +1,4 @@
-import { act } from "react";
-import { FETCH_MATCHES,FETCH_MATCHES_SUCCESS,FETCH_MATCHES_FAIL } from "../../utils/Constants";
+import { FETCH_MATCHES, FETCH_MATCHES_FAIL, FETCH_MATCHES_SUCCESS } from "../../utils/Constants";
 
 const initialState = {
     matches: null,
