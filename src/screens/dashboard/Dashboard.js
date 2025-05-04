@@ -9,6 +9,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import Loader from '../../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMatches } from '../../redux/actions';
+import { APPNAME } from '../../utils/Constants';
+import ContestTypeModal from '../common/ContestTypeModal';
+import MatchCard from '../common/Components/MatchCard';
 
 
 const Dashboard = (props) => {
@@ -24,6 +27,9 @@ const Dashboard = (props) => {
     const [resultsTab, setresultsTab] = useState(false)
     const [matchdata, setmatchdata] = useState([])
     const [loadingDashScreen, setLoadingDashScreen] = useState(false)
+    const [showModal, setShowModal] = useState(false);
+    const [selectedMatch, setSelectedMatch] = useState(null);
+
 
     const dispatch = useDispatch();
     const { matches, loading, error } = useSelector(state => state.dashboard);
@@ -73,7 +79,7 @@ const Dashboard = (props) => {
                         <Image source={require("../../assets/images/avatar1.jpeg")} style={{ width: verticalScale(30), height: verticalScale(30), borderRadius: verticalScale(100), resizeMode: "stretch" }} />
                     </TouchableOpacity>
                     <View style={{ flexDirection: 'row', alignItems: 'center', width: scale(270), justifyContent: 'center' }}>
-                        <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(18), marginLeft: scale(10) }}>Dreamatch</Text>
+                        <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(18), marginLeft: scale(10) }}>{APPNAME}</Text>
                     </View>
                     <TouchableOpacity onPress={() => props.navigation.navigate('NotificationScreen')}>
                         <Ionicon name="notifications-outline" color='white' size={verticalScale(22)} />
@@ -121,7 +127,7 @@ const Dashboard = (props) => {
                         <View style={{ flex: 1 }}>
 
                             <ScrollView showsVerticalScrollIndicator={false} >
-                                <View style={{ marginTop: verticalScale(20), flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: scale(340), alignSelf: 'center' }}>
+                                {/* <View style={{ marginTop: verticalScale(20), flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: scale(340), alignSelf: 'center' }}>
                                     <Text style={{ color: colors.black, fontSize: scaleFont(16), fontFamily: constants.OPENSANS_FONT_SEMI_BOLD }}  >My Matches</Text>
                                     <Text onPress={() => props.navigation.navigate('MyContest')} style={{ color: colors.primary_blue, fontFamily: constants.OPENSANS_FONT_SEMI_BOLD, fontSize: scaleFont(14) }} >
                                         View All
@@ -162,7 +168,7 @@ const Dashboard = (props) => {
 
                                         }}
                                     />
-                                </View>
+                                </View> */}
 
                                 {/* <CustomSlider data={bannercarouseldata} /> */}
 
@@ -177,27 +183,10 @@ const Dashboard = (props) => {
                                                 showsVerticalScrollIndicator={false}
                                                 renderItem={({ item }) => {
                                                     return (
-                                                        <TouchableOpacity onPress={() => props.navigation.navigate('Contestselection', { team1_name: item.team1_name, team2_name: item.team2_name, time_left: item.time_left, team1_img: item.team1, team2_img: item.team2 })} activeOpacity={0.7} style={{ flexDirection: 'row', justifyContent: 'space-between', width: scale(340), alignItems: 'center', alignSelf: 'center', marginVertical: verticalScale(10), paddingHorizontal: scale(20), backgroundColor: colors.white, borderRadius: verticalScale(12), height: verticalScale(90) }}>
-                                                            <View style={{ justifyContent: "center", alignItems: "center" }}>
-                                                                <Image source={{ uri: "https://lh3.googleusercontent.com/mq4oNuNSSTe4SvGfuf7EKLnFTsTR0spOTky7J_k14ArsYD5whdoUoKJFG-ZHt45Lf38=w2400" }} style={{ height: verticalScale(40), width: verticalScale(40), borderRadius: verticalScale(40), borderWidth: 1, borderColor: 'black' }} />
-                                                                <Text style={{ color: colors.black, width: scale(70), textAlign: "center" }}>{item.team.team1.name.length > 20 ? item.team.team1.name.split(" ")[0] + " " + item.team.team1.name.split(" ")[1] + " ..." : item.team.team1.name}</Text>
-                                                            </View>
-                                                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                                                <Text style={{ color: colors.black }}>
-                                                                    {item.matchTypeName}
-                                                                </Text>
-                                                                <Text style={{ color: colors.black, fontFamily: constants.OPENSANS_FONT_BOLD }}>
-                                                                    V/S
-                                                                </Text>
-                                                                <Text style={{ paddingHorizontal: scale(8), borderRadius: verticalScale(10), color: colors.primary_red }}>
-                                                                    {convertTimeToHMS(item.matchDateTime)}
-                                                                </Text>
-                                                            </View>
-                                                            <View style={{ justifyContent: "center", alignItems: "center" }}>
-                                                                <Image source={{ uri: "https://lh4.googleusercontent.com/-u2DbgjnPXh9O5uGU1-dttIyFDULjtDhKkpi-6yp3Zj0bZd2pSd8sY3EzHDEv_ZLP6g=w2400" }} style={{ height: verticalScale(40), width: verticalScale(40), borderRadius: verticalScale(40), borderWidth: 1, borderColor: 'black' }} />
-                                                                <Text style={{ color: colors.black, width: scale(70), textAlign: "center" }}>{item.team.team2.name.length > 20 ? item.team.team2.name.split(" ")[0] + " " + item.team.team2.name.split(" ")[1] + " ..." : item.team.team2.name}</Text>
-                                                            </View>
-                                                        </TouchableOpacity>
+                                                        <MatchCard
+                                                            item={item}
+                                                            onPress={() => { setShowModal(true); setSelectedMatch(item) }}
+                                                        />
                                                     );
 
                                                 }} />
@@ -314,6 +303,23 @@ const Dashboard = (props) => {
 } */}
 
             </View>
+
+
+            <ContestTypeModal
+
+                visible={showModal}
+                onClose={() => setShowModal(false)}
+                onMyTeamPress={() => {
+                    setShowModal(false);
+                    console.log('My Team Clicked');
+                }}
+                onQuickWinPress={() => {
+                    setShowModal(false);
+                    console.log('Quick Win clicked');
+                    props.navigation.navigate('ContestListScreen', { selectedMatch: selectedMatch })
+                }}
+
+            />
 
 
         </View>

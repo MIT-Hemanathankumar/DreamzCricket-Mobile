@@ -15,13 +15,21 @@ import AlertModal from '../common/AlertModal';
 const ContestListScreen = (props) => {
     const selectedMatch = props.route.params.selectedMatch;
     const [showModals, setShowModals] = useState(false);
+    const [contestJoin, setContestJoin] = useState(false);
     const { contest, loading, error } = useSelector(state => state.contest);
     const dispatch = useDispatch();
 
     const handlerForJoinContest = (contestId, slotId) => {
-        dispatch(joinContestSlots(selectedMatch.id, contestId, slotId))
-        setShowModals(true);
+        dispatch(joinContestSlots(selectedMatch.id, contestId, slotId));
+        setContestJoin(true);
+
     }
+
+    useEffect(() => {
+        if (contestJoin && contest && contest.message.length > 0) {
+            setShowModals(true); 
+        }
+    }, [contest]);
 
  
     const renderItem = ({ item }) => (
@@ -98,7 +106,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     headerText: {
-        fontSize: 18,
+        fontSize: 15,
         color: '#fff',
         fontWeight: 'bold',
     },

@@ -57,13 +57,13 @@ const SignInScreen = (props) => {
     useEffect(() => {
         if (error) {
             // Show an alert when an error occurs
-            Alert.alert('Login Failed', error || 'An unknown error occurred.');
+            Alert.alert('Login Status', error || 'An unknown error occurred.');
             // Optional: Dispatch an action to clear the error from Redux state
             // dispatch(clearLoginError());
         }
 
         if(errors){
-            Alert.alert('Login Validation Error', errors);
+            Alert.alert('Error', errors);
         }
     }, [error,errors]);
 

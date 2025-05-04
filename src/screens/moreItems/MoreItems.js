@@ -4,10 +4,11 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { colors, constants, scale, scaleFont, verticalScale } from '../../utils';
-// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { switchColors } from '../../redux/actions';
+import { logoutRequest, switchColors } from '../../redux/actions';
 import { DARK_THEME, LIGHT_THEME } from '../../utils/colors';
+import { CommonActions } from '@react-navigation/native';
 
 
 
@@ -18,6 +19,7 @@ const MoreItems = (props) => {
     // const dispatch = useDispatch();
     // define a component mode state
     const [mode, setMode] = useState(colors);
+    const dispatch = useDispatch();
 
     const handleThemeChange = () => {
         setIsEnabled(!isEnabled)
@@ -63,7 +65,13 @@ const MoreItems = (props) => {
     const [isEnabled1, setIsEnabled1] = useState(true);
 
     const handlelogout = () => {
-        showModal()
+        dispatch(logoutRequest())
+        props.navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'LoginScreen' }],
+            })
+        );
     }
 
     const [visible, setVisible] = useState(false);

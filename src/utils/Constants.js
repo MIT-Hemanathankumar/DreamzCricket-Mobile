@@ -10,6 +10,8 @@ export default {
     OPENSANS_FONT_BOLD_ITALIC: 'OpenSans-BoldItalic',
 }
 
+export const APPNAME = 'DreamzCricket';
+
 export const THEME_CHANGE = 'THEME_CHANGE';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -26,3 +28,6 @@ export const FETCH_MATCHES_FAIL = 'FETCH_MATCHES_FAIL';
 export const JOIN_CONTEST_SLOTS = 'JOIN_CONTEST_SLOTS';
 export const JOIN_CONTEST_SLOTS_SUCCESS = 'JOIN_CONTEST_SUCCESS';
 export const JOIN_CONTEST_SLOTS_FAIL = 'JOIN_CONTEST_FAIL';
+export const WALLET_REQUEST = 'WALLET_REQUEST';
+export const WALLET_SUCCESS = 'WALLET_SUCCESS';
+export const WALLET_FAILURE = 'WALLET_FAILURE';

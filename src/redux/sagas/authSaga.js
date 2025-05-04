@@ -1,6 +1,6 @@
 import { takeLatest, call, put } from "redux-saga/effects";
 import axios from "axios";
-import { LOGIN_REQUEST,CREATE_ACCOUNT } from "../../utils/Constants";
+import { LOGIN_REQUEST,CREATE_ACCOUNT,CHECK_AUTH_STATUS,LOGOUT_SUCCESS, LOGOUT } from "../../utils/Constants";
 import { loginSuccess, loginFailure, logoutSuccess, authStatusChecked } from "../actions";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URL, LOGIN_PATH_URL, REGISTRATION_PATH_URL } from "../../utils/endpoints";
@@ -88,23 +88,25 @@ function* registration(action){
 function* logout() {
     try {
       yield call(removeAuthToken);
-      yield put(logoutSuccess());
+      console.log("Remove Auth Token ------>");
+      yield put(logoutSuccess(false));
       // Navigation will be handled in the component upon logoutSuccess
     } catch (error) {
       console.log('Error during logout:', error);
-      yield put(logoutSuccess()); // Still dispatch success to clear state
+      yield put(logoutSuccess(false)); // Still dispatch success to clear state
     }
   }
   
   function* checkAuthStatus() {
     try {
       const token = yield call(getAuthToken);
+      console.log("check Auth Status token ------>");
+      console.log(token);
       if (token) {
-        // Optionally, you can validate the token with the server here
-        // For simplicity, we'll just assume the presence of a token means the user is authenticated
-        // You might want to fetch user data here as well
+        console.log("checkAuthStatus------>");
         yield put(authStatusChecked(true));
       } else {
+        console.log("checkAuthStatus------>");
         yield put(authStatusChecked(false));
       }
     } catch (error) {
@@ -120,4 +122,13 @@ export function* watchLogin() {
 export function* watchRegistration() {
   console.log("watchRegistration--------->");
   yield takeLatest(CREATE_ACCOUNT, registration);
+}
+
+export function* watchAuthStatus(){
+  console.log("watchAuthStatus--------->");
+  yield takeLatest(CHECK_AUTH_STATUS,checkAuthStatus)
+}
+
+export function* watchLogOut(){
+  yield takeLatest(LOGOUT,logout)
 }

@@ -8,6 +8,7 @@ import { colors, constants, scale, scaleFont, verticalScale } from '../../utils'
 import { completedMatchData, matchdata } from '../../utils/Data';
 import ContestTypeModal from '../common/ContestTypeModal';
 import MatchCard from '../common/Components/MatchCard';
+import { APPNAME } from '../../utils/Constants';
 
 
 const MyContest = (props) => {
@@ -50,7 +51,7 @@ const MyContest = (props) => {
 
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: scale(270), justifyContent: 'center' }}>
-                            <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(18), marginLeft: scale(10) }}>Dreamatch</Text>
+                            <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_BOLD, fontSize: scaleFont(18), marginLeft: scale(10) }}>{APPNAME}</Text>
 
                         </View>
                         <Ionicon name="notifications-outline" color='white' size={verticalScale(22)} />
@@ -159,7 +160,7 @@ const MyContest = (props) => {
                                         return (
                                             <MatchCard
                                             item={item}
-                                            onPress={() => setShowModal(true)}
+                                            onPress={() => {setShowModal(true);setSelectedMatch(item)}}
                                         />
                                         )
 

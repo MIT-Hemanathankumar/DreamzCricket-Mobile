@@ -107,11 +107,11 @@ const SignUpScreen = (props) => {
     useEffect(() => {
         if (error) {
             // Show an alert when an error occurs
-            Alert.alert('Login Failed', error.message || 'An unknown error occurred.');
+            Alert.alert('Error', error.message || 'An unknown error occurred.');
         }
 
         if(errors){
-            Alert.alert('Registration Validation Error', errors);
+            Alert.alert('Error', errors);
         }
     }, [error,errors]);
 

@@ -10,11 +10,11 @@ const contest = (state = initialState, action) => {
 
     switch(action.type){
          case JOIN_CONTEST_SLOTS:
-                  return { ...state, loading: true, error: null };
+                  return {contest:null,loading: true, error: null };
         case JOIN_CONTEST_SLOTS_SUCCESS:
-            return {...state, contest:action.payload, loading: false};
+            return {contest:action.payload, loading: false};
         case JOIN_CONTEST_SLOTS_FAIL:
-            return {...state, loading:false, error: action.payload };
+            return {loading:false, error: action.payload };
         default:
             return state;
     }

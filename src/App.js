@@ -22,6 +22,8 @@ import MoreItems from './screens/moreItems/MoreItems';
 import SignInScreen from './screens/login/SignInScreen';
 import ContestListScreen from './screens/myContest/ContestListScreen';
 import QRCodePayment from './screens/wallet/qrCodePayment';
+import CustomDrawerContent from './screens/drawerscreens/CustomDrawerContent';
+
 import { colors, verticalScale, scale } from "./utils"
 
 
@@ -107,7 +109,7 @@ const App = () => {
         <Provider store={store}>
              <NavigationContainer>
         <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ animation: 'slide_from_right', }} >
-            <Stack.Screen name="Dashboard" component={BottomTabNavigator} options={{ headerShown: false }} />
+            <Stack.Screen name="Dashboard" component={DrawerNavigator} options={{ headerShown: false }} />
             <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false, }} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SignupScreen" component={SignUpScreen} options={{ headerShown: false }} />  

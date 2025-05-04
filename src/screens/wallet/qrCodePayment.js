@@ -1,14 +1,25 @@
 import React from "react";
-import { View, Image, StatusBar, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, Image, StatusBar, TouchableOpacity, Text, StyleSheet,ToastAndroid,Alert, Platform } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import { colors, fullHeight, fullWidth, scale, scaleFont, verticalScale } from '../../utils';
-
+import Clipboard from "@react-native-clipboard/clipboard";
 import LinearGradient from 'react-native-linear-gradient';
 
 
 const QRCodePayment = (props) => {
 
     const logo = require("../../assets/images/QRCode.jpeg");
+
+    const copyQRCode = () => {
+      const qrText = "sathego-3@okicici";
+      Clipboard.setString(qrText);
+
+      if(Platform.OS === 'android'){
+        ToastAndroid.show('QR Code copied to clipboard!', ToastAndroid.SHORT);
+      } else {
+        Alert.alert('Copied', 'QR Code copied to clipboard');
+      }
+    };
 
 
     return (
@@ -29,7 +40,9 @@ const QRCodePayment = (props) => {
                         <Ionicon name="arrow-back" size={24} color="white" />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>QRCode</Text>
-                    <Text style={styles.headerText}></Text>
+                    <TouchableOpacity onPress={copyQRCode}>
+                    <Text style={styles.headerText}>Copy QRCode</Text>
+                    </TouchableOpacity>
 
                 </View>
             </LinearGradient>
@@ -62,7 +75,7 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
     },
     headerText: {
-      fontSize: 18,
+      fontSize: 15,
       color: '#fff',
       fontWeight: 'bold',
       alignItems: 'center',

@@ -23,7 +23,7 @@ const MatchCard = ({ item, onPress }) => {
     >
       {/* Team 1 */}
       <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <Image 
+        {/* <Image 
         //   source={{ uri: item?.team?.team1?.logo || 'https://lh3.googleusercontent.com/mq4oNuNSSTe4SvGfuf7EKLnFTsTR0spOTky7J_k14ArsYD5whdoUoKJFG-ZHt45Lf38=w2400' }}
         source={{uri:'https://lh3.googleusercontent.com/mq4oNuNSSTe4SvGfuf7EKLnFTsTR0spOTky7J_k14ArsYD5whdoUoKJFG-ZHt45Lf38=w2400'}}
         style={{
@@ -33,7 +33,7 @@ const MatchCard = ({ item, onPress }) => {
             borderWidth: 1,
             borderColor: 'black',
           }}
-        />
+        /> */}
         <Text style={{ 
           color: colors.black, 
           width: scale(70), 
@@ -68,7 +68,7 @@ const MatchCard = ({ item, onPress }) => {
 
       {/* Team 2 */}
       <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <Image 
+        {/* <Image 
         //   source={{ uri: item?.team?.team2?.logo || 'https://lh4.googleusercontent.com/-u2DbgjnPXh9O5uGU1-dttIyFDULjtDhKkpi-6yp3Zj0bZd2pSd8sY3EzHDEv_ZLP6g=w2400' }}
           source={{uri: 'https://lh4.googleusercontent.com/-u2DbgjnPXh9O5uGU1-dttIyFDULjtDhKkpi-6yp3Zj0bZd2pSd8sY3EzHDEv_ZLP6g=w2400'}}
         style={{
@@ -78,7 +78,7 @@ const MatchCard = ({ item, onPress }) => {
             borderWidth: 1,
             borderColor: 'black',
           }}
-        />
+        /> */}
         <Text style={{ 
           color: colors.black, 
           width: scale(70), 

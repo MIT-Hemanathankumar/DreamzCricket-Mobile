@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, THEME_CHANGE, NAVIGATE_TO_DASHBOARD, LOGOUT_SUCCESS, CHECK_AUTH_STATUS, AUTH_STATUS_CHECKED, CREATE_ACCOUNT, FETCH_MATCHES, FETCH_MATCHES_SUCCESS, FETCH_MATCHES_FAIL } from '../../utils/Constants';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, THEME_CHANGE, NAVIGATE_TO_DASHBOARD, LOGOUT_SUCCESS, CHECK_AUTH_STATUS, AUTH_STATUS_CHECKED, CREATE_ACCOUNT, FETCH_MATCHES, FETCH_MATCHES_SUCCESS, FETCH_MATCHES_FAIL, LOGOUT } from '../../utils/Constants';
 // switch mode according to what is specified...
 export const switchColors = colors => {
     return {
@@ -27,8 +27,13 @@ export const navigateToDashboard = () => ({
     type: NAVIGATE_TO_DASHBOARD
 });
 
-export const logoutSuccess = () => ({
+export const logoutRequest = () => ({
+    type: LOGOUT
+});
+
+export const logoutSuccess = (isAuthenticated) => ({
     type: LOGOUT_SUCCESS,
+    payload: {isAuthenticated}
 });
 
 export const checkAuthStatus = () => ({

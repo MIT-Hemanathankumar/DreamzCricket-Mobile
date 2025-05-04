@@ -96,10 +96,32 @@ android {
             keyPassword 'android'
         }
     }
+    // buildTypes {
+    //     debug {
+    //         signingConfig signingConfigs.debug
+    //     }
+    //     release {
+    //         // Caution! In production, you need to generate your own keystore file.
+    //         // see https://reactnative.dev/docs/signed-apk-android.
+    //         signingConfig signingConfigs.debug
+    //         minifyEnabled enableProguardInReleaseBuilds
+    //         proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+    //     }
+    // }
+    //  signingConfigs {
+    //     release {
+    //         storeFile file('release_key_store.keystore')
+    //         storePassword 'Welcome@2'
+    //         keyAlias 'my-key-alias'
+    //         keyPassword 'Welcome@2'
+    //     }
+    // }
     buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-        }
+        // release {
+        //     signingConfig signingConfigs.release
+        //     minifyEnabled false
+        //     shrinkResources false
+        // }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
