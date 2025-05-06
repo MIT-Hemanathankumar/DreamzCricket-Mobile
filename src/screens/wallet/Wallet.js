@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StatusBar, TouchableOpacity, Image, ScrollView, Modal, Keyboard, Linking } from 'react-native';
+import { View, Text, StatusBar, TouchableOpacity, Image, ScrollView, Modal, Keyboard, Linking, Alert } from 'react-native';
 import { colors, scaleFont, scale, verticalScale, constants, fullWidth, fullHeight } from '../../utils';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -9,6 +9,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { TextInput } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { walletRequest } from '../../redux/actions/walletsAction';
+import RNUpiPayment from 'react-native-upi-pay';
+
 
 const Wallet = (props) => {
 
@@ -21,6 +23,9 @@ const Wallet = (props) => {
     const [totalAmount, setTotalAmount] = useState(0);
     const [amountValue, setAmountValue] = useState(0);
     const [upaId, setUPAID] = useState('');
+    const [status, setStatus] = useState('');
+    const [message, setMessage] = useState('');
+    const [txnId, setTxnId] = useState('');
 
     useEffect(() => {
 
@@ -34,18 +39,85 @@ const Wallet = (props) => {
         setTotalAmount(depositedAmount + winningsAmount);
     }, [wallet]);
 
-    const handlerUPIID = () => {
+    const handlerUPIID = async () => {
+        console.log("--------->");
+        console.log("handlerUPIID");
+        console.log("--------->");
 
-        const upiUrl = `upi://pay?pa=sathego-3@okicici&pn=sathe M&am=${amountValue}&tn=DreamzCricket&cu=INR`;
+        try {
+            // const paymentApp = 'googlePay'; // or 'phonepe', 'paytm', etc.
+    
+            // RNUpiPayment.initializePayment({
+            //     vpa: 'sathego-3@okicici',
+            //     payeeName: 'abc',
+            //     amount: amountValue.toString(),
+            //     transactionNote: 'DREAMZCRICKET',
+            //     transactionRef: 'txn-' + new Date().getTime()
+            // }, paymentApp);
+
+            // paytmmp://pay?pa=your@vpa&pn=YourName&tn=Note&am=1&cu=INR - Paytm
+            // phonepe://pay?pa=your@vpa&pn=YourName&tn=Note&am=1&cu=INR - Phonepe
+            // tez://upi/pay?pa=your@vpa&pn=YourName&tn=Note&am=1&cu=INR - googlePay
 
 
-        Linking.openURL(upiUrl).catch(() =>
-            Alert.alert('Error', 'Unable to open UPI app')
-          );
-          console.log(upiUrl);
-        setCouponModalVisible(false);
-    }
+            const upiUrl = `tez://upi/pay?pa=sathego-3@okicici&pn=YourName&tn=Dreamzcricket&am=${amountValue}&cu=INR`;
+            await Linking.openURL(upiUrl);
+            setaddMoneyModalVisible(false);
+        } catch(e) {
+          console.log(e);
+          setaddMoneyModalVisible(false);
 
+        }
+  
+        
+    };
+    
+    const successCallback = (data) => {
+        console.log(data);
+        setStatus("SUCCESS");
+        setTxnId(data['txnId']);
+        setMessage("Successful payment");
+    };
+    
+    const failureCallback = (data) => {
+        console.log(data);
+        const status = (data.status || data.Status || '').toUpperCase();
+    
+        switch(status) {
+            case 'FAILURE':
+            case 'FAILED':
+                setStatus("FAILURE");
+                setMessage("Payment failed or app closed without payment");
+                break;
+            case 'SUBMITTED':
+                setStatus("FAILURE");
+                setMessage("Transaction done but pending");
+                break;
+            default:
+                setStatus("FAILURE");
+                setMessage(data.status || "Unknown error");
+        }
+    };
+
+
+    // const handlerUPIID = async () => {
+    //     if (!upaId || !amountValue || isNaN(amountValue) || Number(amountValue) <= 0) {
+    //         Alert.alert('Invalid Input', 'Please enter a valid UPI ID and amount.');
+    //         return;
+    //     }
+    
+    //     const upiUrl = `upi://pay?pa=sathego-3@okicici&pn=User&am=${amountValue}&tn=AddMoney&cu=INR`;
+    //     const supported = await Linking.canOpenURL(upiUrl);
+    
+    //     if (supported) {
+    //         Linking.openURL(upiUrl);
+    //     } else {
+    //         Alert.alert('Error', 'No UPI app found to handle the request');
+    //     }
+    
+    //     console.log('UPI URL:', upiUrl);
+    //     setaddMoneyModalVisible(false);
+    // };
 
     return (
         <View style={{ flex: 1, backgroundColor: 'white', }}>
@@ -69,7 +141,7 @@ const Wallet = (props) => {
                 )
             }
 
-{
+            {
                 //Make Backdrop
                 addMoneyModalVisible && (
                     <View
@@ -108,7 +180,7 @@ const Wallet = (props) => {
                         value={couponValue}
                         onChangeText={(text) => { setCouponValue(text) }}
                     />
-                    <TouchableOpacity onPress={() => handlerUPIID()} style={{ width: scale(330), justifyContent: "center", alignItems: "center", height: verticalScale(40), backgroundColor: couponValue.length > 4 ? colors.secondary_blue : '#868686', marginTop: verticalScale(30), alignSelf: "center", borderRadius: verticalScale(6) }} >
+                    <TouchableOpacity onPress={() => { handlerUPIID()}} style={{ width: scale(330), justifyContent: "center", alignItems: "center", height: verticalScale(40), backgroundColor: couponValue.length > 4 ? colors.secondary_blue : '#868686', marginTop: verticalScale(30), alignSelf: "center", borderRadius: verticalScale(6) }} >
                         <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_MEDIUM, fontSize: scaleFont(12) }}>Apply Now</Text>
                     </TouchableOpacity>
 
@@ -126,7 +198,7 @@ const Wallet = (props) => {
                         <TouchableOpacity onPress={() => setaddMoneyModalVisible(false)}>
                             <MaterialCommunityIcons name="close" size={verticalScale(24)} color={colors.black} />
                         </TouchableOpacity>
-                        <Text style={{ color: colors.primary_blue, fontFamily: constants.OPENSANS_FONT_SEMI_BOLD, fontSize: scaleFont(16), marginLeft: scale(65), justifyContent:'center', alignItems: 'center' }}>      Add Money</Text>
+                        <Text style={{ color: colors.primary_blue, fontFamily: constants.OPENSANS_FONT_SEMI_BOLD, fontSize: scaleFont(16), marginLeft: scale(65), justifyContent: 'center', alignItems: 'center' }}>      Add Money</Text>
                     </View>
 
                     <TextInput
@@ -147,7 +219,7 @@ const Wallet = (props) => {
                         onChangeText={(text) => { setUPAID(text) }}
                     />
 
-                    <TouchableOpacity onPress={() => setaddMoneyModalVisible(false)} style={{ width: scale(330), justifyContent: "center", alignItems: "center", height: verticalScale(40), backgroundColor: Number(amountValue) > 0 && upaId.length > 5 ? colors.secondary_blue : '#868686', marginTop: verticalScale(30), alignSelf: "center", borderRadius: verticalScale(6), marginBottom: verticalScale(100) }} >
+                    <TouchableOpacity onPress={() => handlerUPIID()} style={{ width: scale(330), justifyContent: "center", alignItems: "center", height: verticalScale(40), backgroundColor: Number(amountValue) > 0 && upaId.length > 5 ? colors.secondary_blue : '#868686', marginTop: verticalScale(30), alignSelf: "center", borderRadius: verticalScale(6), marginBottom: verticalScale(100) }} >
                         <Text style={{ color: colors.white, fontFamily: constants.OPENSANS_FONT_MEDIUM, fontSize: scaleFont(12) }}>Submit</Text>
                     </TouchableOpacity>
 
